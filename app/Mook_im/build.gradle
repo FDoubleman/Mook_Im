@@ -29,8 +29,12 @@ ext{
     versionName = '1.0.0'
 
     // 相关依赖库版本
-    supportVersion = '25.3.1'
-    butterknifeVersion = '8.5.1'
-
-
+    supportVersion = '25.3.0'
+    butterknifeVersion = '8.7.0'
+    geniusVersion = '2.0.0'
+    glideVersion = '3.7.0'
+    circleimageviewVersion = '2.1.0'
+    ucropVersion = "2.2.0-native"
+    easyPMVersion = "0.3.0"
+    ossVersion = '2.3.0'
 }

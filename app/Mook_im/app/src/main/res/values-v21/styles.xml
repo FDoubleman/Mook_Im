@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--去除-->
+    <style name="AppTheme.TransStatusBar" parent="AppTheme.TransStatusBar.Base">
+        <!--去除5.0以上手机 状态栏半透明颜色渐变色-->
+        <item name="android:statusBarColor">@null</item>
+    </style>
+</resources>
