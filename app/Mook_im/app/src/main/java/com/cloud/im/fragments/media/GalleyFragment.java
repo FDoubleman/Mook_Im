@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import com.cloud.common.tools.UiTool;
 import com.cloud.common.widget.GalleryView;
 import com.cloud.im.R;
 
@@ -110,15 +111,15 @@ public class GalleyFragment extends BottomSheetDialogFragment implements Gallery
                 return;
 
 
-//            // 得到屏幕高度
-//            int screenHeight = UiTool.getScreenHeight(getOwnerActivity());
-//            // 得到状态栏的高度
-//            int statusHeight = UiTool.getStatusBarHeight(getOwnerActivity());
-//
-//            // 计算dialog的高度并设置
-//            int dialogHeight = screenHeight - statusHeight;
-//            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
-//                    dialogHeight <= 0 ? ViewGroup.LayoutParams.MATCH_PARENT : dialogHeight);
+            // 得到屏幕高度
+            int screenHeight = UiTool.getScreenHeight(getOwnerActivity());
+            // 得到状态栏的高度
+            int statusHeight = UiTool.getStatusBarHeight(getOwnerActivity());
+
+            // 计算dialog的高度并设置
+            int dialogHeight = screenHeight - statusHeight;
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                    dialogHeight <= 0 ? ViewGroup.LayoutParams.MATCH_PARENT : dialogHeight);
 
         }
     }

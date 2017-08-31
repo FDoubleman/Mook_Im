@@ -9,6 +9,8 @@ import android.view.View;
 import com.cloud.common.base.BaseFragment;
 import com.cloud.common.utils.ImageUtil;
 import com.cloud.common.widget.PortraitView;
+import com.cloud.factory.Factory;
+import com.cloud.factory.net.UploadHelp;
 import com.cloud.im.App;
 import com.cloud.im.R;
 import com.cloud.im.fragments.media.GalleyFragment;
@@ -97,12 +99,12 @@ public class UpdateInfoFragment extends BaseFragment {
         final String localPath = uri.getPath();
         Log.e("TAG", "localPath:" + localPath);
 
-//        Factory.runOnAsync(new Runnable() {
-//            @Override
-//            public void run() {
-//                String url = UploadHelper.uploadPortrait(localPath);
-//                Log.e("TAG", "url:" + url);
-//            }
-//        });
+        Factory.runOnAsync(new Runnable() {
+            @Override
+            public void run() {
+                String url = UploadHelp.uploadPortrait(localPath);
+                Log.e("TAG", "url:" + url);
+            }
+        });
     }
 }

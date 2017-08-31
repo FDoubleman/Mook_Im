@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,8 +23,6 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:minHeight="@dimen/len_92"
-        android:padding="1dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:padding="1dp"/>
 
-
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

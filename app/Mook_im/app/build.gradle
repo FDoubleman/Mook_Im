@@ -28,18 +28,14 @@ dependencies {
     compile "com.android.support:design:$rootProject.ext.supportVersion"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
-
     compile "net.qiujuer.genius:ui:$rootProject.ext.geniusVersion"
     compile "net.qiujuer.genius:res:$rootProject.ext.geniusVersion"
-
     compile "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
-
     compile "com.yalantis:ucrop:$rootProject.ext.ucropVersion"
     compile "pub.devrel:easypermissions:$rootProject.ext.easyPMVersion"
-
-    compile project(':common')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "com.android.support:support-v4:$rootProject.ext.supportVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+    compile project(':factory')
 }

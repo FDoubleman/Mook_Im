@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".LaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Main">
             <intent-filter>
@@ -42,8 +42,14 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_launch">
+        </activity>
     </application>
-
+    <!-- Access Key ID ：LTAIBZr2n3nbVeK7 -->
+    <!-- Access Key Secret ：R0ZanvhqiQWZTffQ1lKJeVZ75jjyVe -->
+    <!-- Endpoint ：oss-cn-shanghai.aliyuncs.com -->
+    <!-- BUCKET_NAME ：fdouble -->
 </manifest>

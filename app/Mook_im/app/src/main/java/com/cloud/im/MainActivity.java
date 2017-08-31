@@ -1,5 +1,7 @@
 package com.cloud.im;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.Menu;
@@ -44,6 +46,11 @@ public class MainActivity extends BaseActivity implements
     @BindView(R.id.btn_action)
     FloatActionButton fatAction;
     private NavHelper<Integer> mNavHelper;
+
+
+    public static void show(Context context){
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
     @Override
     public int getContentLayoutId() {
