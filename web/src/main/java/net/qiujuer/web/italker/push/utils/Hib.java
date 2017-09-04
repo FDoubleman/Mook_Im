@@ -71,7 +71,7 @@ public class Hib {
     public static void queryOnly(QueryOnlyInter queryOnlyInter){
         //开启事务
         Session session = sessionFactory.openSession();
-        final Transaction transaction = session.getTransaction();
+        final Transaction transaction = session.beginTransaction();
         try {
             queryOnlyInter.querOnly(session);
             //提交事务
@@ -102,7 +102,7 @@ public class Hib {
         // 重开一个Session
        Session session = sessionFactory.openSession();
        //开启事务
-        final Transaction transaction = session.getTransaction();
+        final Transaction transaction = session.beginTransaction();
         T t =null;
         try {
             // 调用传递进来的接口，
@@ -110,7 +110,6 @@ public class Hib {
             t = queryInter.query(session);
             // 提交
             transaction.commit();
-
         }catch (Exception e){
             e.printStackTrace();
             // 回滚
@@ -119,12 +118,11 @@ public class Hib {
             }catch (RuntimeException e1){
                 e1.printStackTrace();
             }
-
         }finally {
             // 无论成功失败，都需要关闭Session
             session.close();
         }
-
         return t;
     }
+
 }

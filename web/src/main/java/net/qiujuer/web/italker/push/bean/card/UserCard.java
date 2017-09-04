@@ -1,10 +1,8 @@
-package net.qiujuer.web.italker.push.bean.db.card;
+package net.qiujuer.web.italker.push.bean.card;
 
 import com.google.gson.annotations.Expose;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import net.qiujuer.web.italker.push.bean.db.User;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 /**
@@ -40,6 +38,36 @@ public class UserCard {
     // 用户信息最后的更新时间
     @Expose
     private LocalDateTime modifyAt;
+
+
+    public UserCard(User user,boolean isFollow) {
+        this.isFollow =isFollow;
+        this.id = user.getId();
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.portrait = user.getPortrait();
+        this.desc = user.getDescription();
+        this.sex = user.getSex();
+
+        // TODO 得到关注人和粉丝的数量
+        // user.getFollowers().size()
+        // 懒加载会报错，因为没有Session
+
+    }
+
+    public UserCard(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.portrait = user.getPortrait();
+        this.desc = user.getDescription();
+        this.sex = user.getSex();
+
+        // TODO 得到关注人和粉丝的数量
+        // user.getFollowers().size()
+        // 懒加载会报错，因为没有Session
+
+    }
 
     public String getId() {
         return id;
