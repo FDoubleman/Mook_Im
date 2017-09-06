@@ -7,11 +7,12 @@ import net.qiujuer.web.italker.push.bean.db.User;
 
 /**
  * Created by fmm on 2017/8/31.
+ *
  */
 public class AccountRspModel {
     //用户信息相关
     @Expose
-    private UserCard userCard;
+    private UserCard user;
     //账户
     @Expose
     private String account;
@@ -27,18 +28,18 @@ public class AccountRspModel {
     }
 
     public AccountRspModel(User user, boolean isBind) {
-        this.userCard = new UserCard(user);
+        this.user = new UserCard(user);
         this.account =user.getPhone();
         this.token =user.getToken();
         this.isBind = isBind;
     }
 
-    public UserCard getUserCard() {
-        return userCard;
+    public UserCard getUser() {
+        return user;
     }
 
-    public void setUserCard(UserCard userCard) {
-        this.userCard = userCard;
+    public void setUser(UserCard user) {
+        this.user = user;
     }
 
     public String getAccount() {

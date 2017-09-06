@@ -1,4 +1,4 @@
-package com.cloud.im;
+package com.cloud.im.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import com.cloud.common.base.BaseActivity;
 import com.cloud.common.utils.ImageUtil;
 import com.cloud.common.utils.NavHelper;
 import com.cloud.common.widget.PortraitView;
-import com.cloud.im.activity.AccountActivity;
+import com.cloud.im.R;
 import com.cloud.im.fragments.ConnectFragment;
 import com.cloud.im.fragments.GroupFragment;
 import com.cloud.im.fragments.HomeFragment;

@@ -1,6 +1,7 @@
 package com.cloud.im;
 
 import com.cloud.common.base.BaseActivity;
+import com.cloud.im.activity.MainActivity;
 import com.cloud.im.fragments.assist.PermissionsFragment;
 
 public class LaunchActivity extends BaseActivity {

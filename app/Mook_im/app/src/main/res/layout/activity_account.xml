@@ -6,7 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cloud.im.activity.AccountActivity">
-
+    <ImageView
+        android:id="@+id/im_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/app_name"
+        android:foreground="@color/maskChatHeader"
+        android:scaleType="centerCrop" />
     <FrameLayout
         android:id="@+id/fl_container"
         android:layout_width="match_parent"

@@ -42,6 +42,8 @@ dependencies {
     compile "com.yalantis:ucrop:$rootProject.ext.ucropVersion"
     compile "pub.devrel:easypermissions:$rootProject.ext.easyPMVersion"
 
+
+
     testCompile 'junit:junit:4.12'
     compile project(':lang')
 }

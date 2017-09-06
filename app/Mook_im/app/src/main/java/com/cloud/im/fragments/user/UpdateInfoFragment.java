@@ -1,4 +1,4 @@
-package com.cloud.im.fragments.account;
+package com.cloud.im.fragments.user;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

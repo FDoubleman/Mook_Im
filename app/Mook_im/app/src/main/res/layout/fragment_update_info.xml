@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.cloud.im.fragments.account.UpdateInfoFragment">
+             tools:context="com.cloud.im.fragments.user.UpdateInfoFragment">
 
     <com.cloud.common.widget.PortraitView
         android:id="@+id/pv_avatar"
