@@ -67,7 +67,7 @@ public class RegistFragment extends BasePresenterFragment<RegisterContract.Prese
         mPresenter.reginster(phone,name,password);
     }
 
-    @OnClick()
+    @OnClick(R.id.txt_go_login)
     void trigger(){
         //切换登录页面
         mTrigger.trigger();

@@ -35,9 +35,9 @@ public class Network {
         }
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder.connectTimeout(1000*10, TimeUnit.MILLISECONDS);
+        clientBuilder.addInterceptor(new HttpLogger());
         clientBuilder.build();
         OkHttpClient client = clientBuilder.build();
-
         Retrofit.Builder builder = new Retrofit.Builder();
 
         sRetrofit = builder.baseUrl(Common.Constance.API_URL)
