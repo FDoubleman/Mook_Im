@@ -1,11 +1,16 @@
 package com.cloud.im.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.widget.ImageView;
 
 import com.cloud.common.base.BaseActivity;
 import com.cloud.common.base.BaseFragment;
+import com.cloud.common.utils.ImageUtil;
 import com.cloud.im.R;
 import com.cloud.im.fragments.user.UpdateInfoFragment;
+
+import butterknife.BindView;
 
 /**
  * Created by fmm on 2017/9/4.
@@ -15,6 +20,12 @@ import com.cloud.im.fragments.user.UpdateInfoFragment;
 public class UserActivity extends BaseActivity {
 
     private BaseFragment mCurFragment;
+    @BindView(R.id.iv_bg)
+    ImageView ivBg;
+
+    public static void show(Context context){
+        context.startActivity(new Intent(context,UserActivity.class));
+    }
 
     @Override
     public int getContentLayoutId() {
@@ -31,6 +42,9 @@ public class UserActivity extends BaseActivity {
                 .add(R.id.fl_container,
                         mCurFragment,UpdateInfoFragment.Tag)
                 .commit();
+        // 初始化背景
+        ImageUtil.loadBgView(this,R.drawable.bg_src_tianjin,
+                ivBg,R.color.colorAccent);
     }
 
     @Override

@@ -10,7 +10,25 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //个推相关参数
+//        AppID：
+//        bkx8laFWaxAdRGJjrsZN73
+//        AppSecret：
+//        t2ThaKnegh9E7iUNYZrpE1
+//        AppKey：
+//        rfmX3wLHXu5tUEnKi1IMy9
+//        MasterSecret：
+//        5hBuiF8DBD91GULN85X9L9
+        //todo-----待修改
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "bkx8laFWaxAdRGJjrsZN73",
+                GETUI_APP_KEY   : "rfmX3wLHXu5tUEnKi1IMy9",
+                GETUI_APP_SECRET: "t2ThaKnegh9E7iUNYZrpE1",
+                PACKAGE_NAME    : applicationId
+        ]
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -37,5 +55,7 @@ dependencies {
     compile "com.android.support:support-v4:$rootProject.ext.supportVersion"
     compile project(':factory')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    // 个推
+    compile "com.getui:sdk:$rootProject.ext.getuiVersion"
     testCompile 'junit:junit:4.12'
 }

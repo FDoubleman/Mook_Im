@@ -67,7 +67,7 @@ public class UploadHelp {
                 OSSPlainTextAKSKCredentialProvider("LTAIBZr2n3nbVeK7"
                 , "R0ZanvhqiQWZTffQ1lKJeVZ75jjyVe");
 
-        return new OSSClient(Factory.getApp(), ENDPOINT, credentialProvider);
+        return new OSSClient(Factory.app(), ENDPOINT, credentialProvider);
     }
 
 

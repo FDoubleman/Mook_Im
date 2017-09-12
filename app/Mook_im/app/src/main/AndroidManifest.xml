@@ -21,7 +21,8 @@
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/appName"
+        tools:replace="android:label"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -48,6 +49,24 @@
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_launch">
         </activity>
+
+        <activity
+            android:label="@string/user_activity"
+            android:theme="@style/AppTheme.Account"
+            android:name=".activity.UserActivity">
+
+        </activity>
+
+        <!--个推的广播注册-->
+        <receiver
+            android:name=".MessageReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="1000">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
+            </intent-filter>
+        </receiver>
     </application>
     <!-- Access Key ID ：LTAIBZr2n3nbVeK7 -->
     <!-- Access Key Secret ：R0ZanvhqiQWZTffQ1lKJeVZ75jjyVe -->

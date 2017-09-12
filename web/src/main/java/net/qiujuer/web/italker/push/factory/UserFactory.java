@@ -1,7 +1,9 @@
 package net.qiujuer.web.italker.push.factory;
 
 import com.google.common.base.Strings;
+import net.qiujuer.web.italker.push.bean.card.UserCard;
 import net.qiujuer.web.italker.push.bean.db.User;
+import net.qiujuer.web.italker.push.bean.db.UserFollow;
 import net.qiujuer.web.italker.push.utils.Hib;
 import net.qiujuer.web.italker.push.utils.TextUtil;
 import org.hibernate.Session;
@@ -9,7 +11,10 @@ import org.hibernate.Session;
 import javax.ws.rs.PathParam;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by fmm on 2017/8/30.
@@ -53,7 +58,11 @@ public class UserFactory {
             }
         });
     }
-
+    //通过id 找到用户
+    public static User findUserById(String id){
+        // 通过Id查询，更加简单
+        return Hib.query(session -> session.get(User.class,id));
+    }
 
     public static User login(String account,String password){
         final String accountStr = account.trim();
@@ -214,4 +223,105 @@ public class UserFactory {
             }
         });
     }
+
+
+    /**
+     * 获得我的联系人列表
+     * @param self 自己
+     * @return 联系人列表
+     */
+    public static List<User> contacts(User self) {
+
+        return Hib.query(new Hib.QueryInter<List<User>>() {
+            @Override
+            public List<User> query(Session session) {
+                // 重新加载一次用户信息到self中，和当前的session绑定
+                session.load(self,self.getId());
+                // 获取我关注的人
+               Set<UserFollow> follows = self.getFollowing();
+                //将我关注的人 Set<UserFollow> -->转化为 List<User>
+                // 使用简写方式
+                return follows.stream()
+                        .map(UserFollow::getTarget)
+                        .collect(Collectors.toList());
+            }
+        });
+    }
+
+    /**
+     * 关注某个人
+     * @param origin 自己
+     * @param target 即将被关注人的id
+     * @return 被关注人的信息
+     */
+    public static User follow(User origin, User target,String alias) {
+        //1、查询两者关系是否被绑定
+       UserFollow userFollow =  getUserFollow(origin,target);
+       // 1.2、两者已存在关注 返回
+        if(userFollow!=null){
+            return userFollow.getTarget();
+        }
+
+        return Hib.query(session ->{
+            // 想要操作懒加载的数据，需要重新load一次
+            session.load(origin,origin.getId());
+            session.load(target,target.getId());
+
+            //2、修改userfollow表中对应的信息
+            //创建一条自己关注人的数据
+            UserFollow originFollow = new UserFollow();
+            originFollow.setOrigin(origin);
+            originFollow.setTarget(target);
+            // 备注是我对他的备注，他对我默认没有备注
+            originFollow.setAlias(alias);
+
+
+            //创建一条被关注人的数据
+            UserFollow targetFollow = new UserFollow();
+            targetFollow.setOrigin(target);
+            targetFollow.setTarget(origin);
+
+            //3、保存
+            session.save(originFollow);
+            session.save(targetFollow);
+
+            return target;
+        });
+    }
+
+    /**
+     * 查询两个user的关注关系
+     * @param origin 自己
+     * @param target 用户
+     * @return 关系
+     */
+    public static UserFollow getUserFollow(User origin, User target) {
+
+        return Hib.query(session -> (UserFollow) session
+                .createQuery("from UserFollow where originId =:originID and targetId =:targetID")
+                .setParameter("originID", origin.getId())
+                .setParameter("targetID", target.getId())
+                .setMaxResults(1)
+                .uniqueResult());
+    }
+
+    /**
+     * 通过name 搜索 用户
+     * @param name name
+     * @return 搜索的用户
+     */
+    public static List<User> search(String name) {
+        if (Strings.isNullOrEmpty(name))
+            name = ""; // 保证不能为null的情况，减少后面的一下判断和额外的错误
+        final String searchName = "%" + name + "%"; // 模糊匹配
+
+        return Hib.query(session -> {
+            return session.createQuery("from User where lower(name) like :name and portrait is not null and description is not null ")
+                    .setParameter("name", searchName)
+                    .setMaxResults(20)
+                    .list();
+        });
+        
+    }
+
 }

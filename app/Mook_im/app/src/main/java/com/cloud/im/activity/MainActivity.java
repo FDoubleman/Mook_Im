@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity implements
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
-        AccountActivity.show(this);
+        UserActivity.show(this);
     }
 
     @Override

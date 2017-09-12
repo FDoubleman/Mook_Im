@@ -5,8 +5,12 @@ import android.support.annotation.StringRes;
 import com.cloud.common.base.BaseApplication;
 import com.cloud.factory.data.DataSource;
 import com.cloud.factory.model.api.RspModel;
+import com.cloud.factory.persistence.Account;
+import com.cloud.factory.util.DBFlowExclusionStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,16 +37,27 @@ public class Factory {
                 // 设置时间格式
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
                 // 设置一个过滤器，数据库级别的Model不进行Json转换
-                //.setExclusionStrategies(new DBFlowExclusionStrategy())
+                .setExclusionStrategies(new DBFlowExclusionStrategy())
                 .create();
 
 
     }
 
-    public static BaseApplication getApp(){
+    public static BaseApplication app(){
         return BaseApplication.getInstance();
     }
 
+    public static void setUp(){
+
+        //数据库初始化
+        FlowManager.init(new FlowConfig.Builder(app())
+                .openDatabasesOnInit(true)// 数据库初始化的时候就开始打开
+                .build());
+
+        //数据持久化操作
+        Account.load(app());
+
+    }
     public static void runOnAsync(Runnable runnable){
         // 拿到单例，拿到线程池，然后异步执行
         instance.executor.submit(runnable);
@@ -127,6 +142,11 @@ public class Factory {
      * 收到账户退出的消息需要进行账户退出重新登录
      */
     private void logout() {
+
+    }
+
+    //TODO 处理接收的消息
+    public static void dispatchPush(String msg){
 
     }
 }
