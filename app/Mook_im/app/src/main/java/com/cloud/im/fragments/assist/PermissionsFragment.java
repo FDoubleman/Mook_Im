@@ -27,7 +27,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PermissionsFragment extends BottomSheetDialogFragment implements EasyPermissions.PermissionCallbacks{
+public class PermissionsFragment extends BottomSheetDialogFragment implements EasyPermissions.PermissionCallbacks {
     // 权限回调的标示
     private static final int RC = 0x0100;
 
@@ -47,8 +47,8 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View rootView =inflater.inflate(R.layout.fragment_permissions, container, false);
-        mBtnSubmit = (Button)rootView.findViewById(R.id.btn_submit);
+        View rootView = inflater.inflate(R.layout.fragment_permissions, container, false);
+        mBtnSubmit = (Button) rootView.findViewById(R.id.btn_submit);
         mBtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,7 +164,8 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
      * @param manager FragmentManager
      * @return 是否有权限
      */
-    public static boolean haveAll(Context context, FragmentManager manager) {
+    public static boolean haveAll(Context context, FragmentManager manager,OnRequsetPermissionsListener listener) {
+        setOnRequsetPermissionsListener(listener);
         // 检查是否具有所有的权限
         boolean haveAll = haveNetworkPerm(context)
                 && haveReadPerm(context)
@@ -198,6 +199,12 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
             App.showToast(R.string.label_permission_ok);
             // Fragment 中调用getView得到跟布局，前提是在onCreateView方法之后
             refreshState(getView());
+            //隐藏该fragment
+            this.dismiss();
+            //回调授权成功
+            if(mListener!=null){
+                mListener.success();
+            }
         } else {
             EasyPermissions.requestPermissions(this, getString(R.string.title_assist_permissions),
                     RC, perms);
@@ -228,5 +235,15 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // 传递对应的参数，并且告知接收权限的处理者是我自己
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    private static OnRequsetPermissionsListener mListener;
+
+    public interface OnRequsetPermissionsListener {
+        void success();
+    }
+
+    public static void setOnRequsetPermissionsListener(OnRequsetPermissionsListener requsetPermissionsListener) {
+        mListener = requsetPermissionsListener;
     }
 }

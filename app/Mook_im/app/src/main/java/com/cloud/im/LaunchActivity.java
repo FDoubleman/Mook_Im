@@ -19,7 +19,7 @@ import com.cloud.im.fragments.assist.PermissionsFragment;
 import net.qiujuer.genius.res.Resource;
 import net.qiujuer.genius.ui.compat.UiCompat;
 
-public class LaunchActivity extends BaseActivity {
+public class LaunchActivity extends BaseActivity implements PermissionsFragment.OnRequsetPermissionsListener {
     private ColorDrawable mBgDrawable;
 
 
@@ -99,7 +99,7 @@ public class LaunchActivity extends BaseActivity {
     }
 
     private void reallSkip() {
-        if (PermissionsFragment.haveAll(this, getSupportFragmentManager())) {
+        if (PermissionsFragment.haveAll(this, getSupportFragmentManager(),this)) {
             if(Account.isLogin()){
                 MainActivity.show(this);
             }else{
@@ -112,6 +112,7 @@ public class LaunchActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
     /**
@@ -154,4 +155,16 @@ public class LaunchActivity extends BaseActivity {
         }
     };
 
+    /**
+     * 申请权限成功
+     */
+    @Override
+    public void success() {
+        if(Account.isLogin()){
+            MainActivity.show(this);
+        }else{
+            AccountActivity.show(this);
+        }
+        finish();
+    }
 }

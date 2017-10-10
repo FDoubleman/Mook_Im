@@ -10,6 +10,8 @@ import com.cloud.factory.model.db.User;
 import com.cloud.factory.net.Network;
 import com.cloud.factory.net.RemoteService;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,15 +26,15 @@ public class UserHelper {
     public static void updateUserInfo(UserUpdateModel model, DataSource.CallBack<UserCard> callBack) {
         RemoteService service = Network.getInstance().getService();
         Call<RspModel<UserCard>> call = service.updataInfo(model);
-        call.enqueue(new UpdataInfo(callBack));
+        call.enqueue(new UpdataInfoCallBack(callBack));
 
     }
 
 
-    public static class UpdataInfo implements Callback<RspModel<UserCard>> {
+    public static class UpdataInfoCallBack implements Callback<RspModel<UserCard>> {
         private DataSource.CallBack<UserCard> callBack;
 
-        public UpdataInfo(DataSource.CallBack<UserCard> callBack) {
+        public UpdataInfoCallBack(DataSource.CallBack<UserCard> callBack) {
             this.callBack = callBack;
         }
 
@@ -55,6 +57,41 @@ public class UserHelper {
         @Override
         public void onFailure(Call<RspModel<UserCard>> call, Throwable t) {
             callBack.onDataNotLoad(R.string.data_network_error);
+        }
+    }
+
+
+    public static Call search(String content, DataSource.CallBack<List<UserCard>> callBack){
+        //获得searvice
+        RemoteService service = Network.getInstance().getService();
+        //获得call
+        Call call =service.userSearch(content);
+        //enqueue 加入队列
+        call.enqueue(new SearchUserCallBack(callBack));
+
+        return call;
+    }
+
+    public static class SearchUserCallBack implements Callback<RspModel<List<UserCard>>>{
+        private DataSource.CallBack<List<UserCard>> mCallBack;
+        public SearchUserCallBack(DataSource.CallBack<List<UserCard>> callBack){
+            mCallBack =callBack;
+        }
+
+        @Override
+        public void onResponse(Call<RspModel<List<UserCard>>> call, Response<RspModel<List<UserCard>>> response) {
+
+            RspModel<List<UserCard>> rspModel =  response.body();
+            if(response.isSuccessful()){
+               mCallBack.onDataLoad(rspModel.getResult());
+            }else{
+                Factory.decodeRspCode(rspModel,mCallBack);
+            }
+        }
+
+        @Override
+        public void onFailure(Call<RspModel<List<UserCard>>> call, Throwable t) {
+            mCallBack.onDataNotLoad(R.string.data_network_error);
         }
     }
 }

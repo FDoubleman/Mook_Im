@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cloud.common.widget.PlaceHolderView;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -18,7 +20,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected View mRootView;
     private Unbinder mRootUnBinder;
-
+    public PlaceHolderView mPlaceHolderView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,5 +88,14 @@ public abstract class BaseFragment extends Fragment {
      */
     public boolean onBackPressed() {
         return false;
+    }
+
+
+    /**
+     * 设置空的占位view
+     * @param placeHolderView 继承placeholderview 的view
+     */
+    public void setPlaceHolderView(PlaceHolderView placeHolderView){
+        mPlaceHolderView =placeHolderView;
     }
 }

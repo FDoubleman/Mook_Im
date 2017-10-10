@@ -23,14 +23,20 @@ public abstract class BasePresenterFragment<Presenter extends BaseContract.Prese
 
     @Override
     public void showError(int msg) {
-        //弹出错误提示
-        BaseApplication.showToast(msg);
+        //优先显示错误占位 ，其次 弹出错误提示
+        if(mPlaceHolderView!=null){
+            mPlaceHolderView.triggerError(msg);
+        }else{
+            BaseApplication.showToast(msg);
+        }
     }
 
     @Override
     public void onLoading() {
-        // TODO: 2017/9/4  正在加载
 
+        if(mPlaceHolderView!=null){
+            mPlaceHolderView.triggerLoading();
+        }
     }
 
     @Override

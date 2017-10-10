@@ -54,8 +54,8 @@ dependencies {
     compile "pub.devrel:easypermissions:$rootProject.ext.easyPMVersion"
     compile "com.android.support:support-v4:$rootProject.ext.supportVersion"
     compile project(':factory')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     // 个推
     compile "com.getui:sdk:$rootProject.ext.getuiVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }

@@ -7,8 +7,11 @@ import com.cloud.factory.model.api.account.RegisterModel;
 import com.cloud.factory.model.api.user.UserUpdateModel;
 import com.cloud.factory.model.card.UserCard;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -53,4 +56,12 @@ public interface RemoteService {
      */
     @PUT("user")
     Call<RspModel<UserCard>> updataInfo(@Body UserUpdateModel user);
+
+    /**
+     * 搜索用户接口
+     * @param name 用户名称
+     * @return 搜索结果
+     */
+    @GET("user/search/{name}")
+    Call<RspModel<List<UserCard>>> userSearch(@Path("name")String name);
 }

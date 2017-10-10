@@ -79,12 +79,21 @@ public class MainActivity extends BaseActivity implements
 
     @OnClick(R.id.iv_search)
     void onSearch(){
-
+        //根据当前是群组页面还是联系人页面 打开不同的搜索
+        // 其他都为人搜索的界面
+        int type =Objects.equals(mNavHelper.getCurrentTab().extra,R.string.action_group)
+                ?SearchActivity.TYPE_GROUP:SearchActivity.TYPE_USER;
+        SearchActivity.show(this,type);
     }
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
-        UserActivity.show(this);
+        //根据当前是群组页面还是联系人页面 打开不同的搜索
+        // 其他都为人搜索的界面
+        int type =Objects.equals(mNavHelper.getCurrentTab().extra,R.string.action_group)
+                ?SearchActivity.TYPE_GROUP:SearchActivity.TYPE_USER;
+        SearchActivity.show(this,type);
+
     }
 
     @Override
@@ -124,5 +133,10 @@ public class MainActivity extends BaseActivity implements
                 .setInterpolator(new AnticipateOvershootInterpolator(1))
                 .setDuration(480)
                 .start();
+    }
+
+    @OnClick(R.id.iv_portrait)
+    void updateInfo(){
+        UserActivity.show(this);
     }
 }

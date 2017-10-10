@@ -16,16 +16,19 @@
 
     <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
+    <!-- Access Key ID ：LTAIBZr2n3nbVeK7 -->
+    <!-- Access Key Secret ：R0ZanvhqiQWZTffQ1lKJeVZ75jjyVe -->
+    <!-- Endpoint ：oss-cn-shanghai.aliyuncs.com -->
+    <!-- BUCKET_NAME ：fdouble -->
     <application
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/appName"
-        tools:replace="android:label"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
         <activity
             android:name=".LaunchActivity"
             android:screenOrientation="portrait"
@@ -37,9 +40,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme.Account"
             android:name=".activity.AccountActivity"
-            android:label="@string/title_activity_account">
+            android:label="@string/title_activity_account"
+            android:theme="@style/AppTheme.Account">
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -47,29 +50,32 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/title_activity_launch">
+            android:label="@string/title_activity_launch"
+            android:theme="@style/AppTheme.Main">
         </activity>
-
         <activity
+            android:name=".activity.UserActivity"
             android:label="@string/user_activity"
-            android:theme="@style/AppTheme.Account"
-            android:name=".activity.UserActivity">
-
+            android:theme="@style/AppTheme.Account">
+        </activity>
+        <activity
+            android:name=".activity.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme.Account">
         </activity>
 
-        <!--个推的广播注册-->
+        <!-- 个推的广播注册 -->
         <receiver
             android:name=".MessageReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="1000">
             <intent-filter>
-                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
+                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}"/>
             </intent-filter>
         </receiver>
+
+
     </application>
-    <!-- Access Key ID ：LTAIBZr2n3nbVeK7 -->
-    <!-- Access Key Secret ：R0ZanvhqiQWZTffQ1lKJeVZ75jjyVe -->
-    <!-- Endpoint ：oss-cn-shanghai.aliyuncs.com -->
-    <!-- BUCKET_NAME ：fdouble -->
+
 </manifest>

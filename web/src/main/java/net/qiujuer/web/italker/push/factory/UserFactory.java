@@ -321,7 +321,7 @@ public class UserFactory {
                     .setMaxResults(20)
                     .list();
         });
-        
+
     }
 
 }
