@@ -14,8 +14,9 @@ import com.cloud.common.base.BaseActivity;
 import com.cloud.common.utils.ImageUtil;
 import com.cloud.common.utils.NavHelper;
 import com.cloud.common.widget.PortraitView;
+import com.cloud.factory.persistence.Account;
 import com.cloud.im.R;
-import com.cloud.im.fragments.ConnectFragment;
+import com.cloud.im.fragments.ContectFragment;
 import com.cloud.im.fragments.GroupFragment;
 import com.cloud.im.fragments.HomeFragment;
 
@@ -64,7 +65,7 @@ public class MainActivity extends BaseActivity implements
         mNavHelper = new NavHelper<>(this,getSupportFragmentManager(),R.id.fl_conter,this);
         mNavHelper.add(R.id.action_home,new NavHelper.Tab<Integer>(HomeFragment.class,R.string.action_home))
                 .add(R.id.action_group,new NavHelper.Tab<Integer>(GroupFragment.class,R.string.action_group))
-                .add(R.id.action_contact,new NavHelper.Tab<Integer>(ConnectFragment.class,R.string.action_contact));
+                .add(R.id.action_contact,new NavHelper.Tab<Integer>(ContectFragment.class,R.string.action_contact));
 
         mNavigation.setOnNavigationItemSelectedListener(this);
         ImageUtil.loadViewBg(this,R.drawable.bg_src_morning,mAppbar);
@@ -136,7 +137,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     @OnClick(R.id.iv_portrait)
-    void updateInfo(){
-        UserActivity.show(this);
+    void onPortraitClick() {
+        PersonalActivity.show(this, Account.getUserId());
     }
 }

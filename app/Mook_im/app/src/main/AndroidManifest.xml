@@ -61,7 +61,12 @@
         <activity
             android:name=".activity.SearchActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme.Account">
+            android:theme="@style/AppTheme.TransStatusBar">
+        </activity>
+        <activity
+            android:name=".activity.PersonalActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme.TransStatusBar">
         </activity>
 
         <!-- 个推的广播注册 -->

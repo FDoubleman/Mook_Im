@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 /**
  * Created by fmm on 2017/9/2.
+ *
  */
 @Path("/user")
 public class UserService extends BaseService {

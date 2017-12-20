@@ -21,6 +21,7 @@ public abstract class BaseFragment extends Fragment {
     protected View mRootView;
     private Unbinder mRootUnBinder;
     public PlaceHolderView mPlaceHolderView;
+    public boolean isFirstInit =true;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,6 +49,12 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(isFirstInit){
+            // 触发一次以后就不会触发
+            isFirstInit =false;
+            //第一次触发
+            onFirstInit();
+        }
         initData();
     }
 
@@ -77,6 +84,13 @@ public abstract class BaseFragment extends Fragment {
      * 初始化 数据
      */
     protected void initData(){
+
+    }
+
+    /**
+     * 当首次初始化数据的时候会调用的方法
+     */
+    protected void onFirstInit() {
 
     }
 

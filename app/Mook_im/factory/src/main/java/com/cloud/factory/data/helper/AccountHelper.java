@@ -88,9 +88,10 @@ public class AccountHelper {
             if(modelResponse.success()){
                 AccountRspModel model = modelResponse.getResult();
                 User user = model.getUser();
+                DBHelper.getInstance().save(User.class,user);
                 //将获得的用户信息保存至数据库
                 //方式一、
-                user.save();
+//                user.save();
 //                    //方式二、
 //                    FlowManager.getModelAdapter(User.class)
 //                            .save(user);
