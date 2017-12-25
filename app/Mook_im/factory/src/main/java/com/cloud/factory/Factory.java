@@ -4,6 +4,12 @@ import android.support.annotation.StringRes;
 
 import com.cloud.common.base.BaseApplication;
 import com.cloud.factory.data.DataSource;
+import com.cloud.factory.data.group.GroupCanter;
+import com.cloud.factory.data.group.GroupDispatch;
+import com.cloud.factory.data.massage.MessageCanter;
+import com.cloud.factory.data.massage.MessageDispatch;
+import com.cloud.factory.data.user.UserCanter;
+import com.cloud.factory.data.user.UserDispatch;
 import com.cloud.factory.model.api.RspModel;
 import com.cloud.factory.persistence.Account;
 import com.cloud.factory.util.DBFlowExclusionStrategy;
@@ -148,5 +154,29 @@ public class Factory {
     //TODO 处理接收的消息
     public static void dispatchPush(String msg){
 
+    }
+
+    /**
+     * 获取用户中心的实现类
+     * @return
+     */
+    public static UserCanter getUserCanter(){
+        return UserDispatch.getInstance();
+    }
+
+    /**
+     * 获取消息中心的实现类
+     * @return
+     */
+    public static MessageCanter getMessageCanter(){
+        return MessageDispatch.getInstance();
+    }
+
+    /**
+     * 获取群中心的实现类
+     * @return
+     */
+    public static GroupCanter getGroupCanter(){
+        return GroupDispatch.getInstance();
     }
 }

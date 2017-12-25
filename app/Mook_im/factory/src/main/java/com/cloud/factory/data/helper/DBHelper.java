@@ -19,15 +19,14 @@ import java.util.List;
 
 public class DBHelper {
 
-    public static DBHelper instance;
-
-    public static DBHelper getInstance() {
-        if (instance == null) {
+    private  static final DBHelper instance;
+     static {
             instance = new DBHelper();
-        }
-        return instance;
     }
 
+    private DBHelper(){
+
+    }
     /**
      * 保存
      */
@@ -106,7 +105,8 @@ public class DBHelper {
      * @param models  通知的Model数组
      * @param <Model> 这个实例的范型，限定条件是BaseModel
      */
-    private static <Model extends BaseModel> void notifySave(final Class<Model> tClass, final Model... models) {
+    private static <Model extends BaseModel> void notifySave(final Class<Model> tClass,
+                                                             final Model... models) {
 
     }
 
@@ -117,7 +117,8 @@ public class DBHelper {
      * @param models  通知的Model数组
      * @param <Model> 这个实例的范型，限定条件是BaseModel
      */
-    private static<Model extends BaseModel> void notifyDelete(final Class<Model> tClass,final Model... models){
+    private static<Model extends BaseModel> void notifyDelete(final Class<Model> tClass,
+                                                              final Model... models){
 
     }
 

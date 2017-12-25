@@ -57,40 +57,32 @@ public class ContectPresenter extends BasePresenter<ContectContract.View>
                 }).execute();
 
         //2、从网络获得联系人数据
-        UserHelper.refreshContacts(new DataSource.CallBack<List<UserCard>>() {
-            @Override
-            public void onDataNotLoad(@StringRes int strRes) {
-                // 网络失败，因为本地有数据，不管错误
-            }
+        UserHelper.refreshContacts();
 
-            @Override
-            public void onDataLoad(List<UserCard> user) {
-                //1、将Usecard 保存至数据库
-                final List<User> userList = new ArrayList<User>();
-                for (UserCard userCard : user) {
-                    userList.add(userCard.build());
-                }
-                DatabaseDefinition definition = FlowManager.getDatabase(AppDatabase.class);
-                definition.beginTransactionAsync(new ITransaction() {
-                    @Override
-                    public void execute(DatabaseWrapper databaseWrapper) {
-                        FlowManager.getModelAdapter(User.class)
-                                .saveAll(userList);
-
-                    }
-                }).build().execute();
-
-                //2、刷新UI
-                List<User> old = getView().getRecycleAdapter().getItems();
-
-                diff(old,userList);
-                // TODO 问题：
-                // 1.关注后虽然存储数据库，但是没有刷新联系人
-                // 2.如果刷新数据库，或者从网络刷新，最终刷新的时候是全局刷新
-                // 3.本地刷新和网络刷新，在添加到界面的时候会有可能冲突；导致数据显示异常
-                // 4.如何识别已经在数据库中有这样的数据了
-            }
-        });
+        //1、将Usecard 保存至数据库
+//        final List<User> userList = new ArrayList<User>();
+//        for (UserCard userCard : user) {
+//            userList.add(userCard.build());
+//        }
+//        DatabaseDefinition definition = FlowManager.getDatabase(AppDatabase.class);
+//        definition.beginTransactionAsync(new ITransaction() {
+//            @Override
+//            public void execute(DatabaseWrapper databaseWrapper) {
+//                FlowManager.getModelAdapter(User.class)
+//                        .saveAll(userList);
+//
+//            }
+//        }).build().execute();
+//
+//        //2、刷新UI
+//        List<User> old = getView().getRecycleAdapter().getItems();
+//
+//        diff(old,userList);
+        // TODO 问题：
+        // 1.关注后虽然存储数据库，但是没有刷新联系人
+        // 2.如果刷新数据库，或者从网络刷新，最终刷新的时候是全局刷新
+        // 3.本地刷新和网络刷新，在添加到界面的时候会有可能冲突；导致数据显示异常
+        // 4.如何识别已经在数据库中有这样的数据了
     }
 
     private void diff(List<User> oldList ,List<User> newList){
