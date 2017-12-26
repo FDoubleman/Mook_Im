@@ -3,7 +3,6 @@ package com.cloud.factory.model.card;
 
 import com.cloud.factory.model.Author;
 import com.cloud.factory.model.db.User;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.Date;
 
@@ -12,7 +11,7 @@ import java.util.Date;
  * @author qiujuer Email:qiujuer@live.cn
  * @version 1.0.0
  */
-public class UserCard extends BaseModel implements Author {
+public class UserCard implements Author {
     private String id;
     private String name;
     private String phone;

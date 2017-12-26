@@ -164,6 +164,9 @@ public class Session extends BaseModel implements DiffUiDataCallback.UiDataDiffe
                 && Objects.equals(this.modifyAt, oldT.modifyAt);
     }
 
+    public void refreshToNow() {
+        // TODO 刷新会话对应的信息为当前Message的最新状态
+    }
 
     /**
      * 对于一条消息，我们提取主要部分，用于和Session进行对应
