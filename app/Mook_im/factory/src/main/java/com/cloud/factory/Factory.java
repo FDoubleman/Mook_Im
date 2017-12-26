@@ -1,6 +1,7 @@
 package com.cloud.factory;
 
 import android.support.annotation.StringRes;
+import android.util.Log;
 
 import com.cloud.common.base.BaseApplication;
 import com.cloud.factory.data.DataSource;
@@ -10,14 +11,22 @@ import com.cloud.factory.data.massage.MessageCanter;
 import com.cloud.factory.data.massage.MessageDispatch;
 import com.cloud.factory.data.user.UserCanter;
 import com.cloud.factory.data.user.UserDispatch;
+import com.cloud.factory.model.api.PushModel;
 import com.cloud.factory.model.api.RspModel;
+import com.cloud.factory.model.card.GroupCard;
+import com.cloud.factory.model.card.GroupMemberCard;
+import com.cloud.factory.model.card.MessageCard;
+import com.cloud.factory.model.card.UserCard;
 import com.cloud.factory.persistence.Account;
 import com.cloud.factory.util.DBFlowExclusionStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,7 +35,7 @@ import java.util.concurrent.Executors;
  */
 
 public class Factory {
-
+    private static final String TAG = Factory.class.getSimpleName();
     private static Factory instance;
     static {
         instance = new Factory();
@@ -151,9 +160,61 @@ public class Factory {
 
     }
 
-    //TODO 处理接收的消息
-    public static void dispatchPush(String msg){
+    public static void dispatchPush(String str){
+        // 首先检查登录状态
+        if (!Account.isLogin())
+            return;
 
+        PushModel model = PushModel.decode(str);
+        if (model == null)
+            return;
+
+        Log.e(TAG, model.toString());
+        // 对推送集合进行遍历
+        for (PushModel.Entity entity : model.getEntities()) {
+            switch (entity.type) {
+                case PushModel.ENTITY_TYPE_LOGOUT:
+                    instance.logout();
+                    // 退出情况下，直接返回，并且不可继续
+                    return;
+
+                case PushModel.ENTITY_TYPE_MESSAGE: {
+                    // 普通消息
+                    MessageCard card = getGson().fromJson(entity.content, MessageCard.class);
+                    getMessageCanter().dispatch(card);
+                    break;
+                }
+
+                case PushModel.ENTITY_TYPE_ADD_FRIEND: {
+                    // 好友添加
+                    UserCard card = getGson().fromJson(entity.content, UserCard.class);
+                    getUserCanter().dispatch(card);
+                    break;
+                }
+
+                case PushModel.ENTITY_TYPE_ADD_GROUP: {
+                    // 添加群
+                    GroupCard card = getGson().fromJson(entity.content, GroupCard.class);
+                    getGroupCanter().dispatch(card);
+                    break;
+                }
+
+                case PushModel.ENTITY_TYPE_ADD_GROUP_MEMBERS:
+                case PushModel.ENTITY_TYPE_MODIFY_GROUP_MEMBERS: {
+                    // 群成员变更, 回来的是一个群成员的列表
+                    Type type = new TypeToken<List<GroupMemberCard>>() {
+                    }.getType();
+                    List<GroupMemberCard> card = getGson().fromJson(entity.content, type);
+                    // 把数据集合丢到数据中心处理
+                    getGroupCanter().dispatch(card.toArray(new GroupMemberCard[0]));
+                    break;
+                }
+                case PushModel.ENTITY_TYPE_EXIT_GROUP_MEMBERS: {
+                    // TODO 成员退出的推送
+                }
+
+            }
+        }
     }
 
     /**

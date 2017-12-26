@@ -25,6 +25,7 @@ import com.cloud.im.R;
 import net.qiujuer.genius.res.Resource;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by fmm on 2017/10/11.
@@ -135,5 +136,10 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
         drawable = DrawableCompat.wrap(drawable);
         DrawableCompat.setTint(drawable, Resource.Color.WHITE);
         mFollowItem.setIcon(drawable);
+    }
+
+    @OnClick(R.id.im_header)
+    public void changeInfo(){
+        UserActivity.show(this);
     }
 }
