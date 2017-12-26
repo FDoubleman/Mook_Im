@@ -1,6 +1,5 @@
 package com.cloud.factory.presenter.account;
 
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 
 import com.cloud.factory.R;
@@ -19,7 +18,7 @@ import net.qiujuer.genius.kit.handler.runable.Action;
  */
 
 public class LoginPresenter extends BasePresenter<LoginContract.View>
-        implements LoginContract.Presenter ,DataSource.CallBack<User>{
+        implements LoginContract.Presenter ,DataSource.Callback<User>{
 
 
     public LoginPresenter(LoginContract.View view) {
@@ -44,8 +43,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.View>
 
     }
 
+
     @Override
-    public void onDataLoad(User user) {
+    public void onDataLoaded(User user) {
         //请求数据成功
         final LoginContract.View view = getView();
         if(view==null){
@@ -54,14 +54,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.View>
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-               view.loginSuccess();
+                view.loginSuccess();
             }
         });
     }
 
     @Override
-    public void onDataNotLoad(@StringRes final int strRes) {
-        //请求数据失败
+    public void onDataNotAvailable(final int strRes) {
+    //请求数据失败
         final LoginContract.View view = getView();
         if(view==null){
             return;

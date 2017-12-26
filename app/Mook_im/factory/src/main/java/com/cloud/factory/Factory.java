@@ -80,7 +80,7 @@ public class Factory {
      * @param model    RspModel
      * @param callback DataSource.FailedCallback 用于返回一个错误的资源Id
      */
-    public static void decodeRspCode(RspModel model, DataSource.FaileCallBack callback) {
+    public static void decodeRspCode(RspModel model, DataSource.FailedCallback callback) {
         if (model == null)
             return;
 
@@ -139,9 +139,9 @@ public class Factory {
     }
 
     private static void decodeRspCode(@StringRes final int resId,
-                                      final DataSource.FaileCallBack callback) {
+                                      final DataSource.FailedCallback callback) {
         if (callback != null)
-            callback.onDataNotLoad(resId);
+            callback.onDataNotAvailable(resId);
     }
 
     /**

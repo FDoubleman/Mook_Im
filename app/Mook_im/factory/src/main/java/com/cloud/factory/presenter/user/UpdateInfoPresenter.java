@@ -22,7 +22,7 @@ import net.qiujuer.genius.kit.handler.runable.Action;
  */
 
 public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
-        implements UpdateInfoContract.Presenter, DataSource.CallBack<UserCard> {
+        implements UpdateInfoContract.Presenter, DataSource.Callback<UserCard> {
 
 
     public UpdateInfoPresenter(UpdateInfoContract.View view) {
@@ -60,8 +60,9 @@ public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
         }
     }
 
+
     @Override
-    public void onDataLoad(UserCard user) {
+    public void onDataLoaded(UserCard userCard) {
         //5、更新UI
         final UpdateInfoContract.View view = getView();
         if (view == null)
@@ -76,7 +77,7 @@ public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
     }
 
     @Override
-    public void onDataNotLoad(@StringRes final int strRes) {
+    public void onDataNotAvailable(final int strRes) {
         final UpdateInfoContract.View view = getView();
         if (view == null)
             return;
@@ -87,6 +88,5 @@ public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
                 view.showError(strRes);
             }
         });
-
     }
 }

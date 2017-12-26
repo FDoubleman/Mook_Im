@@ -7,7 +7,7 @@ import com.cloud.factory.presenter.BaseContract;
  * Created by fmm on 2017/10/11.
  */
 
-public interface ContectContract extends BaseContract {
+public interface ContactContract extends BaseContract {
 
     // 什么都不需要额外定义，开始就是调用start即可
      interface Presenter extends BaseContract.Presenter{

@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 public class UserHelper {
     //更新用户信息
-    public static void updateUserInfo(UserUpdateModel model, DataSource.CallBack<UserCard> callBack) {
+    public static void updateUserInfo(UserUpdateModel model, DataSource.Callback<UserCard> callBack) {
         RemoteService service = Network.getInstance().getService();
         Call<RspModel<UserCard>> call = service.updataInfo(model);
         call.enqueue(new UpdataInfoCallBack(callBack));
@@ -34,7 +34,7 @@ public class UserHelper {
     }
 
     //搜索某人
-    public static Call search(String content, DataSource.CallBack<List<UserCard>> callBack) {
+    public static Call search(String content, DataSource.Callback<List<UserCard>> callBack) {
         //获得searvice
         RemoteService service = Network.getInstance().getService();
         //获得call
@@ -46,7 +46,7 @@ public class UserHelper {
     }
 
     //关注某人
-    public static Call follow(String followId, DataSource.CallBack<UserCard> callBack) {
+    public static Call follow(String followId, DataSource.Callback<UserCard> callBack) {
         RemoteService service = Network.getInstance().getService();
         Call call = service.followUser(followId);
         call.enqueue(new followCallback(callBack));
@@ -122,9 +122,9 @@ public class UserHelper {
     }
 
     private static class UpdataInfoCallBack implements Callback<RspModel<UserCard>> {
-        private DataSource.CallBack<UserCard> callBack;
+        private DataSource.Callback<UserCard> callBack;
 
-        public UpdataInfoCallBack(DataSource.CallBack<UserCard> callBack) {
+        public UpdataInfoCallBack(DataSource.Callback<UserCard> callBack) {
             this.callBack = callBack;
         }
 
@@ -136,7 +136,7 @@ public class UserHelper {
                 UserCard userCard = rspModel.getResult();
                 //唤起进行保存的操作
                 Factory.getUserCanter().dispatch(userCard);
-                callBack.onDataLoad(userCard);
+                callBack.onDataLoaded(userCard);
             } else {
                 // 错误情况下进行错误分配
                 Factory.decodeRspCode(rspModel, callBack);
@@ -145,14 +145,14 @@ public class UserHelper {
 
         @Override
         public void onFailure(Call<RspModel<UserCard>> call, Throwable t) {
-            callBack.onDataNotLoad(R.string.data_network_error);
+            callBack.onDataNotAvailable(R.string.data_network_error);
         }
     }
 
     private static class SearchUserCallBack implements Callback<RspModel<List<UserCard>>> {
-        private DataSource.CallBack<List<UserCard>> mCallBack;
+        private DataSource.Callback<List<UserCard>> mCallBack;
 
-        public SearchUserCallBack(DataSource.CallBack<List<UserCard>> callBack) {
+        public SearchUserCallBack(DataSource.Callback<List<UserCard>> callBack) {
             mCallBack = callBack;
         }
 
@@ -161,7 +161,7 @@ public class UserHelper {
 
             RspModel<List<UserCard>> rspModel = response.body();
             if (response.isSuccessful()) {
-                mCallBack.onDataLoad(rspModel.getResult());
+                mCallBack.onDataLoaded(rspModel.getResult());
             } else {
                 Factory.decodeRspCode(rspModel, mCallBack);
             }
@@ -169,14 +169,14 @@ public class UserHelper {
 
         @Override
         public void onFailure(Call<RspModel<List<UserCard>>> call, Throwable t) {
-            mCallBack.onDataNotLoad(R.string.data_network_error);
+            mCallBack.onDataNotAvailable(R.string.data_network_error);
         }
     }
 
     private static class followCallback implements Callback<RspModel<UserCard>> {
-        private DataSource.CallBack<UserCard> mCallBack;
+        private DataSource.Callback<UserCard> mCallBack;
 
-        public followCallback(DataSource.CallBack<UserCard> callBack) {
+        public followCallback(DataSource.Callback<UserCard> callBack) {
             mCallBack = callBack;
         }
 
@@ -193,7 +193,7 @@ public class UserHelper {
                 //保存并通知联系人列表刷新
                 //DBHelper.save(User.class,user);
 
-                mCallBack.onDataLoad(userCard);
+                mCallBack.onDataLoaded(userCard);
             } else {
                 Factory.decodeRspCode(rspModel, mCallBack);
             }
@@ -201,7 +201,7 @@ public class UserHelper {
 
         @Override
         public void onFailure(Call<RspModel<UserCard>> call, Throwable t) {
-            mCallBack.onDataNotLoad(R.string.data_network_error);
+            mCallBack.onDataNotAvailable(R.string.data_network_error);
         }
     }
 

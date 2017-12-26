@@ -1,6 +1,5 @@
 package com.cloud.factory.presenter.account;
 
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 
 import com.cloud.common.Common;
@@ -21,7 +20,7 @@ import java.util.regex.Pattern;
  */
 
 public class RegisterPresenter extends BasePresenter<RegisterContract.View>
-        implements RegisterContract.Presenter, DataSource.CallBack<User> {
+        implements RegisterContract.Presenter, DataSource.Callback<User> {
 
     public RegisterPresenter(RegisterContract.View view) {
         super(view);
@@ -56,7 +55,7 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.View>
     }
 
     @Override
-    public void onDataLoad(User user) {
+    public void onDataLoaded(User user) {
         //数据请求成功
         final RegisterContract.View view =getView();
         if(view!=null){
@@ -67,12 +66,11 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.View>
                 }
             });
         }
-
     }
 
     @Override
-    public void onDataNotLoad(@StringRes final int strRes) {
-        //数据请求失败
+    public void onDataNotAvailable(final int strRes) {
+//数据请求失败
         final RegisterContract.View view =getView();
         if(view!=null){
             Run.onUiAsync(new Action() {

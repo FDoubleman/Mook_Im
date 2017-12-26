@@ -31,7 +31,7 @@ public class AccountHelper {
      * @param registerModel 注册实体body
      * @param callBack 注册接口回调
      */
-    public static void register(RegisterModel registerModel,  DataSource.CallBack<User> callBack){
+    public static void register(RegisterModel registerModel,  DataSource.Callback<User> callBack){
 
         RemoteService service = Network.getInstance().getService();
         Call<RspModel<AccountRspModel>> call =service.accountRegister(registerModel);
@@ -44,7 +44,7 @@ public class AccountHelper {
      * @param loginModel
      * @param callBack
      */
-    public static void login(LoginModel loginModel, DataSource.CallBack<User> callBack){
+    public static void login(LoginModel loginModel, DataSource.Callback<User> callBack){
 
         RemoteService service = Network.getInstance().getService();
         //获得一个call
@@ -57,7 +57,7 @@ public class AccountHelper {
      * 绑定推送设备
      * @param callBack 绑定回调
      */
-    public static void bindPush(DataSource.CallBack<User> callBack) {
+    public static void bindPush(DataSource.Callback<User> callBack) {
         String pushID  = Account.getPushId();
         if(TextUtils.isEmpty(pushID)){
             return;
@@ -71,8 +71,8 @@ public class AccountHelper {
 
 
     private static class AccountRspCallback implements Callback<RspModel<AccountRspModel>>{
-        private DataSource.CallBack<User> callBack;
-        public AccountRspCallback( DataSource.CallBack<User> callBack) {
+        private DataSource.Callback<User> callBack;
+        public AccountRspCallback( DataSource.Callback<User> callBack) {
             this.callBack =callBack;
         }
 
@@ -111,12 +111,12 @@ public class AccountHelper {
                     // 设置绑定状态为True
                     Account.setBind(true);
                     if(callBack!=null){
-                        callBack.onDataLoad(model.getUser());
+                        callBack.onDataLoaded(model.getUser());
                     }
                 }else{
                     //未被绑定
                     //bindPush(callBack);
-                    callBack.onDataLoad(model.getUser());
+                    callBack.onDataLoaded(model.getUser());
                 }
 
             }else{
@@ -131,7 +131,7 @@ public class AccountHelper {
             if(callBack==null){
                 return;
             }
-            callBack.onDataNotLoad(R.string.data_network_error);
+            callBack.onDataNotAvailable(R.string.data_network_error);
         }
     }
 }

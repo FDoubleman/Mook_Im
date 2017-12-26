@@ -11,7 +11,7 @@ import com.cloud.common.widget.EmptyView;
 import com.cloud.common.widget.PortraitView;
 import com.cloud.common.widget.recycler.RecyclerAdapter;
 import com.cloud.factory.model.db.User;
-import com.cloud.factory.presenter.contact.ContectContract;
+import com.cloud.factory.presenter.contact.ContactContract;
 import com.cloud.factory.presenter.contact.ContectPresenter;
 import com.cloud.im.R;
 import com.cloud.im.activity.PersonalActivity;
@@ -23,8 +23,8 @@ import butterknife.OnClick;
  * Created by fmm on 2017/7/23.
  */
 
-public class ContectFragment extends BasePresenterFragment<ContectContract.Presenter>
-         implements ContectContract.View {
+public class ContectFragment extends BasePresenterFragment<ContactContract.Presenter>
+         implements ContactContract.View {
 
     @BindView(R.id.recycler)
     RecyclerView mRecycler;

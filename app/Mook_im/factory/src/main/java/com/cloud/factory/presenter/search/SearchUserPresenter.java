@@ -1,7 +1,5 @@
 package com.cloud.factory.presenter.search;
 
-import android.support.annotation.StringRes;
-
 import com.cloud.factory.data.DataSource;
 import com.cloud.factory.data.helper.UserHelper;
 import com.cloud.factory.model.card.UserCard;
@@ -19,7 +17,7 @@ import retrofit2.Call;
  */
 
 public class SearchUserPresenter extends BasePresenter<SearchContract.UserView>
-        implements SearchContract.SearchPresenter,DataSource.CallBack<List<UserCard>> {
+        implements SearchContract.SearchPresenter,DataSource.Callback<List<UserCard>> {
     private Call searchCall;
 
     public SearchUserPresenter(SearchContract.UserView view) {
@@ -41,14 +39,14 @@ public class SearchUserPresenter extends BasePresenter<SearchContract.UserView>
     }
 
     @Override
-    public void onDataLoad(final List<UserCard> user) {
+    public void onDataLoaded(final List<UserCard> userCards) {
         //搜索成功
         final SearchContract.UserView userView = getView();
         if(userView!=null){
             Run.onUiAsync(new Action() {
                 @Override
                 public void call() {
-                    userView.onSearchDone(user);
+                    userView.onSearchDone(userCards);
                 }
             });
         }
@@ -56,7 +54,7 @@ public class SearchUserPresenter extends BasePresenter<SearchContract.UserView>
     }
 
     @Override
-    public void onDataNotLoad(@StringRes final int strRes) {
+    public void onDataNotAvailable(final int strRes) {
         //搜索失败
         final SearchContract.UserView userView = getView();
         Run.onUiAsync(new Action() {

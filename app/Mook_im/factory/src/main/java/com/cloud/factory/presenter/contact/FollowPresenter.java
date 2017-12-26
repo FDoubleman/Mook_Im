@@ -1,7 +1,5 @@
 package com.cloud.factory.presenter.contact;
 
-import android.support.annotation.StringRes;
-
 import com.cloud.factory.data.DataSource;
 import com.cloud.factory.data.helper.UserHelper;
 import com.cloud.factory.model.card.UserCard;
@@ -15,7 +13,7 @@ import net.qiujuer.genius.kit.handler.runable.Action;
  */
 
 public class FollowPresenter extends BasePresenter<FollowContract.FollowView>
-        implements FollowContract.FollowPresenter ,DataSource.CallBack<UserCard> {
+        implements FollowContract.FollowPresenter ,DataSource.Callback<UserCard> {
 
 
     public FollowPresenter(FollowContract.FollowView view) {
@@ -28,21 +26,20 @@ public class FollowPresenter extends BasePresenter<FollowContract.FollowView>
         UserHelper.follow(followId,this);
     }
 
-    //关注成功
+
     @Override
-    public void onDataLoad(final UserCard user) {
-       final FollowContract.FollowView view = getView();
+    public void onDataLoaded(final UserCard userCard) {
+        final FollowContract.FollowView view = getView();
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                view.followSuccess(user);
+                view.followSuccess(userCard);
             }
         });
     }
 
-    //关注失败
     @Override
-    public void onDataNotLoad(@StringRes final int strRes) {
+    public void onDataNotAvailable(final int strRes) {
         final FollowContract.FollowView view = getView();
         Run.onUiAsync(new Action() {
             @Override
