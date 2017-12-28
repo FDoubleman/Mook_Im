@@ -14,6 +14,7 @@ import com.cloud.factory.model.db.User;
 import com.cloud.factory.presenter.contact.ContactContract;
 import com.cloud.factory.presenter.contact.ContectPresenter;
 import com.cloud.im.R;
+import com.cloud.im.activity.MessageActivity;
 import com.cloud.im.activity.PersonalActivity;
 
 import butterknife.BindView;
@@ -59,7 +60,8 @@ public class ContectFragment extends BasePresenterFragment<ContactContract.Prese
             public void onItemClick(RecyclerAdapter.ViewHolder holder, User user) {
                 super.onItemClick(holder, user);
                 //进入个人详情
-                PersonalActivity.show(getContext(),user.getId());
+                //PersonalActivity.show(getContext(),user.getId());
+                MessageActivity.show(getContext(),user);
             }
         });
 

@@ -7,4 +7,5 @@
     <string name="user_activity">UserActivity</string>
     <string name="appName">IW</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="title_message">MessageActivity</string>
 </resources>

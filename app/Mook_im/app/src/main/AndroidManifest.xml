@@ -68,7 +68,11 @@
             android:label="@string/title_activity_search"
             android:theme="@style/AppTheme.TransStatusBar">
         </activity>
-
+        <activity
+            android:name=".activity.MessageActivity"
+            android:label="@string/title_message"
+            android:theme="@style/AppTheme.Message">
+        </activity>
         <!-- 个推的广播注册 -->
         <receiver
             android:name=".MessageReceiver"
