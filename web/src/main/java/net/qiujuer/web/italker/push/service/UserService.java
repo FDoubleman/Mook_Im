@@ -2,12 +2,14 @@ package net.qiujuer.web.italker.push.service;
 
 
 import com.google.common.base.Strings;
+import net.qiujuer.web.italker.push.bean.api.base.PushModel;
 import net.qiujuer.web.italker.push.bean.api.base.ResponseModel;
 import net.qiujuer.web.italker.push.bean.api.user.UpdateInfoModel;
 import net.qiujuer.web.italker.push.bean.card.UserCard;
 import net.qiujuer.web.italker.push.bean.db.User;
 
 import net.qiujuer.web.italker.push.factory.UserFactory;
+import net.qiujuer.web.italker.push.utils.PushDispatcher;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -55,6 +57,14 @@ public class UserService extends BaseService {
     public ResponseModel<List<UserCard>> contact() {
         //1、获得自己
         User self = getSelf();
+
+        PushDispatcher dispatcher = new PushDispatcher();
+        PushModel pushModel =new PushModel();
+        pushModel.add(new PushModel.Entity(0,"hello 推送消息"));
+        dispatcher.add(self,pushModel);
+        dispatcher.submit();
+
+
         //2、通过自己获得联系人
         List<User> users = UserFactory.contacts(self);
         //3、将联系人 转化为UserCard
