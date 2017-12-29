@@ -8,6 +8,9 @@ import android.view.View;
 
 import com.cloud.common.utils.ImageUtil;
 import com.cloud.common.widget.PortraitView;
+import com.cloud.factory.model.db.User;
+import com.cloud.factory.presenter.message.ChatContract;
+import com.cloud.factory.presenter.message.ChatUserPresenter;
 import com.cloud.im.R;
 import com.cloud.im.activity.PersonalActivity;
 
@@ -19,7 +22,7 @@ import butterknife.OnClick;
  * 用户聊天页面
  */
 
-public class ChatUserFragment extends ChatFragment {
+public class ChatUserFragment extends ChatFragment<User> implements ChatContract.UserView {
 
 
     private MenuItem mUserInfoMenuItem;
@@ -106,5 +109,15 @@ public class ChatUserFragment extends ChatFragment {
     @OnClick(R.id.im_portrait)
     void onPortraitClick() {
         PersonalActivity.show(getContext(), mReceiverId);
+    }
+
+    @Override
+    protected ChatContract.Presenter initPresenter() {
+        return new ChatUserPresenter(this,mReceiverId);
+    }
+
+    @Override
+    public void onInit(User user) {
+
     }
 }

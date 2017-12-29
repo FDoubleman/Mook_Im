@@ -89,7 +89,7 @@ public class UserHelper {
      * @param id 用户id
      * @return 用户信息
      */
-    private static User searchLoacl(String id) {
+    public static User searchLoacl(String id) {
         return SQLite.select()
                 .from(User.class)
                 .where(User_Table.id.eq(id))

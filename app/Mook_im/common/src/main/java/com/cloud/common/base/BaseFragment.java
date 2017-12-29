@@ -1,5 +1,6 @@
 package com.cloud.common.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,9 +41,10 @@ public abstract class BaseFragment extends Fragment {
         return mRootView;
     }
 
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         initArgs(getArguments());
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -13,13 +14,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.cloud.common.base.BaseFragment;
+import com.cloud.common.base.BasePresenterFragment;
 import com.cloud.common.widget.PortraitView;
 import com.cloud.common.widget.adapter.TextWatcherAdapter;
 import com.cloud.common.widget.recycler.RecyclerAdapter;
 import com.cloud.factory.model.db.Message;
 import com.cloud.factory.model.db.User;
 import com.cloud.factory.persistence.Account;
+import com.cloud.factory.presenter.message.ChatContract;
 import com.cloud.im.R;
 import com.cloud.im.activity.MessageActivity;
 
@@ -36,7 +38,8 @@ import butterknife.OnClick;
  * 聊天基类
  */
 
-public abstract class ChatFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener {
+public abstract class ChatFragment<InitModel> extends BasePresenterFragment<ChatContract.Presenter>
+        implements AppBarLayout.OnOffsetChangedListener, ChatContract.View<InitModel> {
 
     protected String mReceiverId;
 
@@ -57,6 +60,7 @@ public abstract class ChatFragment extends BaseFragment implements AppBarLayout.
 
     @BindView(R.id.btn_submit)
     View mSubmit;
+    private Adapter mAdapter;
 
     @Override
     protected void initArgs(Bundle bundle) {
@@ -70,12 +74,21 @@ public abstract class ChatFragment extends BaseFragment implements AppBarLayout.
         initToolbar();
         initAppBar();
         initEditContent();
+        //初始化recyclerview
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new Adapter();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mPresenter.start();
+    }
 
     //设置toolbar 返回键
-    protected  void initToolbar(){
-        Toolbar toolbar =mToolbar;
+    protected void initToolbar() {
+        Toolbar toolbar = mToolbar;
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +99,7 @@ public abstract class ChatFragment extends BaseFragment implements AppBarLayout.
     }
 
     //设置appbar 折叠监听
-    protected  void initAppBar(){
+    protected void initAppBar() {
         mAppBarLayout.addOnOffsetChangedListener(this);
     }
 
@@ -96,27 +109,59 @@ public abstract class ChatFragment extends BaseFragment implements AppBarLayout.
     }
 
     //输入文字内容监听
-    public void initEditContent(){
+    public void initEditContent() {
         mContent.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void afterTextChanged(Editable s) {
                 //发送按钮监听
-               String content = s.toString().trim();
-               boolean needSubmit = !TextUtils.isEmpty(content);
+                String content = s.toString().trim();
+                boolean needSubmit = !TextUtils.isEmpty(content);
                 mSubmit.setActivated(needSubmit);
             }
         });
     }
+    @OnClick(R.id.btn_face)
+    void onFaceClick() {
+        // TODO
+    }
 
+    @OnClick(R.id.btn_record)
+    void onRecordClick() {
+        // TODO
+    }
+
+    @OnClick(R.id.btn_submit)
+    void onSubmitClick() {
+        if (mSubmit.isActivated()) {
+            // 发送
+            String content = mContent.getText().toString();
+            mContent.setText("");
+            mPresenter.pushText(content);
+        } else {
+            onMoreClick();
+        }
+    }
+    private void onMoreClick() {
+        // TODO
+    }
+    @Override
+    public RecyclerAdapter<Message> getRecycleAdapter() {
+        return mAdapter;
+    }
+
+    @Override
+    public void onAdapterDataChanged() {
+        // 界面没有占位布局，Recycler是一直显示的，所有不需要做任何事情
+    }
 
     //聊天recycleview 的适配器
-    public class Adapter extends RecyclerAdapter<Message>{
+    public class Adapter extends RecyclerAdapter<Message> {
 
         @Override
         protected int getItemViewType(int position, Message message) {
             //自己发送的在右边  收到的在左边
             boolean isRight = Objects.equals(message.getSender().getId(), Account.getUserId());
-            switch (message.getType()){
+            switch (message.getType()) {
                 // 文字内容
                 case Message.TYPE_STR:
                     return isRight ? R.layout.cell_chat_text_right : R.layout.cell_chat_text_left;
@@ -160,7 +205,7 @@ public abstract class ChatFragment extends BaseFragment implements AppBarLayout.
     }
 
     //Holder的基类
-    private class BaseHolder extends RecyclerAdapter.ViewHolder<Message>{
+     class BaseHolder extends RecyclerAdapter.ViewHolder<Message> {
 
         //每个call都要有用户头像
         @BindView(R.id.im_portrait)
@@ -182,23 +227,23 @@ public abstract class ChatFragment extends BaseFragment implements AppBarLayout.
             //进行数据加载 -->懒加载需要load
             sender.load();
             //设置头像
-            mPortrait.setup(Glide.with(ChatFragment.this),sender);
+            mPortrait.setup(Glide.with(ChatFragment.this), sender);
 
             //消息状态 显示
-            if(mLoading !=null){
+            if (mLoading != null) {
                 //当前布局显示右边
-                int status =message.getStatus();
-                if(status ==Message.STATUS_DONE){//1、消息完成
+                int status = message.getStatus();
+                if (status == Message.STATUS_DONE) {//1、消息完成
                     // 正常状态, 隐藏Loading
                     mLoading.stop();
                     mLoading.setVisibility(View.GONE);
-                }else if(status ==Message.STATUS_CREATED){//2、正在发送中...
+                } else if (status == Message.STATUS_CREATED) {//2、正在发送中...
                     // 正在发送中的状态
                     mLoading.setVisibility(View.VISIBLE);
                     mLoading.setProgress(0);
                     mLoading.setForegroundColor(UiCompat.getColor(getResources(), R.color.colorAccent));
                     mLoading.start();
-                }else if(status == Message.STATUS_FAILED){//3、发送失败 允许重新发送
+                } else if (status == Message.STATUS_FAILED) {//3、发送失败 允许重新发送
                     // 发送失败状态, 允许重新发送
                     mLoading.setVisibility(View.VISIBLE);
                     mLoading.stop();
@@ -212,9 +257,9 @@ public abstract class ChatFragment extends BaseFragment implements AppBarLayout.
         }
 
         @OnClick(R.id.im_portrait)
-        void onRePushClick(){
+        void onRePushClick() {
             //重新发送
-            if(mLoading !=null){
+            if (mLoading != null) {
                 // 必须是右边的才有可能需要重新发送
                 // 状态改变需要重新刷新界面当前的信息
                 // TODO: 2017/12/28 重新发送待完善
@@ -222,10 +267,12 @@ public abstract class ChatFragment extends BaseFragment implements AppBarLayout.
             }
         }
     }
+
     // 文字的Holder
-    class TextHolder extends BaseHolder{
+    class TextHolder extends BaseHolder {
         @BindView(R.id.txt_content)
         TextView mContent;
+
         public TextHolder(View itemView) {
             super(itemView);
         }
