@@ -2,11 +2,15 @@ package com.cloud.im.fragments.message;
 
 
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.cloud.common.utils.ImageUtil;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.cloud.common.widget.PortraitView;
 import com.cloud.factory.model.db.User;
 import com.cloud.factory.presenter.message.ChatContract;
@@ -36,7 +40,17 @@ public class ChatUserFragment extends ChatFragment<User> implements ChatContract
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-        ImageUtil.loadViewBg(getContext(),R.drawable.default_banner_chat,mCollapsingLayout);
+        //ImageUtil.loadViewBg(getContext(),R.drawable.default_banner_chat,mCollapsingLayout);
+
+        Glide.with(this)
+                .load(R.drawable.default_banner_chat)
+                .centerCrop()
+                .into(new ViewTarget<CollapsingToolbarLayout, GlideDrawable>(mCollapsingLayout) {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        this.view.setContentScrim(resource.getCurrent());
+                    }
+                });
     }
 
     @Override
@@ -118,6 +132,8 @@ public class ChatUserFragment extends ChatFragment<User> implements ChatContract
 
     @Override
     public void onInit(User user) {
-
+        // 对和你聊天的朋友的信息进行初始化操作
+        mPortrait.setup(Glide.with(this), user.getPortrait());
+        mCollapsingLayout.setTitle(user.getName());
     }
 }

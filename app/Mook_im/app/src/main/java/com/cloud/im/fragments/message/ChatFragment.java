@@ -120,6 +120,7 @@ public abstract class ChatFragment<InitModel> extends BasePresenterFragment<Chat
             }
         });
     }
+
     @OnClick(R.id.btn_face)
     void onFaceClick() {
         // TODO
@@ -141,9 +142,11 @@ public abstract class ChatFragment<InitModel> extends BasePresenterFragment<Chat
             onMoreClick();
         }
     }
+
     private void onMoreClick() {
         // TODO
     }
+
     @Override
     public RecyclerAdapter<Message> getRecycleAdapter() {
         return mAdapter;
@@ -205,7 +208,7 @@ public abstract class ChatFragment<InitModel> extends BasePresenterFragment<Chat
     }
 
     //Holder的基类
-     class BaseHolder extends RecyclerAdapter.ViewHolder<Message> {
+    class BaseHolder extends RecyclerAdapter.ViewHolder<Message> {
 
         //每个call都要有用户头像
         @BindView(R.id.im_portrait)
@@ -259,12 +262,12 @@ public abstract class ChatFragment<InitModel> extends BasePresenterFragment<Chat
         @OnClick(R.id.im_portrait)
         void onRePushClick() {
             //重新发送
-            if (mLoading != null) {
+            if (mLoading != null && mPresenter.rePush(mData)) {
                 // 必须是右边的才有可能需要重新发送
                 // 状态改变需要重新刷新界面当前的信息
-                // TODO: 2017/12/28 重新发送待完善
-
+                updateData(mData);
             }
+
         }
     }
 

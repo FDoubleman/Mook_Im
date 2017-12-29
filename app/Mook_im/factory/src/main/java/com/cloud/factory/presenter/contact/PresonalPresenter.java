@@ -29,14 +29,13 @@ public class PresonalPresenter extends BasePresenter<PersonalContract.View> impl
                 if(view!=null){
                     String id  = view.getUserId();
                     User user = UserHelper.searchFirstNet(id);
-                    onLoaded(view, user);
+                    onLoaded(user);
                 }
-
             }
         });
     }
 
-    private void onLoaded(final PersonalContract.View view, final User user) {
+    private void onLoaded( final User user) {
         //是否是自己
         boolean isSelf = Account.getUserId().equalsIgnoreCase(user.getId());
         //是否已经关注
@@ -47,6 +46,10 @@ public class PresonalPresenter extends BasePresenter<PersonalContract.View> impl
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
+                PersonalContract.View view =  getView();
+                if(view ==null){
+                    return;
+                }
                 view.onLoadDone(user);
                 view.allowSayHello(isSayHello);
                 view.setFollowStatus(isFollow);
