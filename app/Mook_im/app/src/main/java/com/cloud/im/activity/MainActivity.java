@@ -16,9 +16,9 @@ import com.cloud.common.utils.NavHelper;
 import com.cloud.common.widget.PortraitView;
 import com.cloud.factory.persistence.Account;
 import com.cloud.im.R;
+import com.cloud.im.fragments.ActiveFragment;
 import com.cloud.im.fragments.ContectFragment;
 import com.cloud.im.fragments.GroupFragment;
-import com.cloud.im.fragments.HomeFragment;
 
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity implements
         super.initWidget();
 
         mNavHelper = new NavHelper<>(this,getSupportFragmentManager(),R.id.fl_conter,this);
-        mNavHelper.add(R.id.action_home,new NavHelper.Tab<Integer>(HomeFragment.class,R.string.action_home))
+        mNavHelper.add(R.id.action_home,new NavHelper.Tab<Integer>(ActiveFragment.class,R.string.action_home))
                 .add(R.id.action_group,new NavHelper.Tab<Integer>(GroupFragment.class,R.string.action_group))
                 .add(R.id.action_contact,new NavHelper.Tab<Integer>(ContectFragment.class,R.string.action_contact));
 

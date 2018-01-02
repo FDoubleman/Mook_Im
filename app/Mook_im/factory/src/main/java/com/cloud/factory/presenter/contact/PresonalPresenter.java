@@ -36,6 +36,7 @@ public class PresonalPresenter extends BasePresenter<PersonalContract.View> impl
     }
 
     private void onLoaded( final User user) {
+
         //是否是自己
         boolean isSelf = Account.getUserId().equalsIgnoreCase(user.getId());
         //是否已经关注

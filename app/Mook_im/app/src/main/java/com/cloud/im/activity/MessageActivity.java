@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import com.cloud.common.base.BaseActivity;
 import com.cloud.common.base.BaseFragment;
 import com.cloud.factory.model.Author;
+import com.cloud.factory.model.db.Message;
+import com.cloud.factory.model.db.Session;
 import com.cloud.im.R;
 import com.cloud.im.fragments.message.ChatGroupFragment;
 import com.cloud.im.fragments.message.ChatUserFragment;
@@ -40,6 +42,21 @@ public class MessageActivity extends BaseActivity {
         intent.putExtra(KEY_RECEIVER_IS_GROUP, false);
         context.startActivity(intent);
     }
+    /**
+     * 通过Session发起聊天
+     *
+     * @param context 上下文
+     * @param session Session
+     */
+    public static void show(Context context, Session session) {
+        if (session == null || context == null || TextUtils.isEmpty(session.getId()))
+            return;
+        Intent intent = new Intent(context, MessageActivity.class);
+        intent.putExtra(KEY_RECEIVER_ID, session.getId());
+        intent.putExtra(KEY_RECEIVER_IS_GROUP, session.getReceiverType() == Message.RECEIVER_TYPE_GROUP);
+        context.startActivity(intent);
+    }
+
 
     @Override
     public int getContentLayoutId() {
