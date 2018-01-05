@@ -8,8 +8,10 @@ import com.cloud.factory.model.api.user.UserUpdateModel;
 import com.cloud.factory.model.card.UserCard;
 import com.cloud.factory.model.db.User;
 import com.cloud.factory.model.db.User_Table;
+import com.cloud.factory.model.db.view.UserSampleModel;
 import com.cloud.factory.net.Network;
 import com.cloud.factory.net.RemoteService;
+import com.cloud.factory.persistence.Account;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.io.IOException;
@@ -25,6 +27,8 @@ import retrofit2.Response;
  */
 
 public class UserHelper {
+
+
     //更新用户信息
     public static void updateUserInfo(UserUpdateModel model, DataSource.Callback<UserCard> callBack) {
         RemoteService service = Network.getInstance().getService();
@@ -121,6 +125,7 @@ public class UserHelper {
         return null;
     }
 
+
     private static class UpdataInfoCallBack implements Callback<RspModel<UserCard>> {
         private DataSource.Callback<UserCard> callBack;
 
@@ -209,6 +214,7 @@ public class UserHelper {
 
         public ContactsCallback() {
         }
+
         @Override
         public void onResponse(Call<RspModel<List<UserCard>>> call,
                                Response<RspModel<List<UserCard>>> response) {
@@ -233,5 +239,21 @@ public class UserHelper {
         public void onFailure(Call<RspModel<List<UserCard>>> call, Throwable t) {
             //mCallBack.onDataNotLoad(R.string.data_network_error);
         }
+    }
+
+
+    // 获取一个联系人列表，
+    // 但是是一个简单的数据的
+    public static List<UserSampleModel> getSampleContact() {
+        //"select id = ??";
+        //"select User_id = ??";
+        return SQLite.select(User_Table.id.withTable().as("id"),
+                User_Table.name.withTable().as("name"),
+                User_Table.portrait.withTable().as("portrait"))
+                .from(User.class)
+                .where(User_Table.isFollow.eq(true))
+                .and(User_Table.id.notEq(Account.getUserId()))
+                .orderBy(User_Table.name, true)
+                .queryCustomList(UserSampleModel.class);
     }
 }

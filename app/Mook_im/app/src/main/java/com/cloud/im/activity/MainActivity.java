@@ -63,9 +63,9 @@ public class MainActivity extends BaseActivity implements
         super.initWidget();
 
         mNavHelper = new NavHelper<>(this,getSupportFragmentManager(),R.id.fl_conter,this);
-        mNavHelper.add(R.id.action_home,new NavHelper.Tab<Integer>(ActiveFragment.class,R.string.action_home))
-                .add(R.id.action_group,new NavHelper.Tab<Integer>(GroupFragment.class,R.string.action_group))
-                .add(R.id.action_contact,new NavHelper.Tab<Integer>(ContectFragment.class,R.string.action_contact));
+        mNavHelper.add(R.id.action_home,new NavHelper.Tab<Integer>(ActiveFragment.class,R.string.title_home))
+                .add(R.id.action_group,new NavHelper.Tab<Integer>(GroupFragment.class,R.string.title_group))
+                .add(R.id.action_contact,new NavHelper.Tab<Integer>(ContectFragment.class,R.string.title_contact));
 
         mNavigation.setOnNavigationItemSelectedListener(this);
         ImageUtil.loadViewBg(this,R.drawable.bg_src_morning,mAppbar);
@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity implements
     void onSearch(){
         //根据当前是群组页面还是联系人页面 打开不同的搜索
         // 其他都为人搜索的界面
-        int type =Objects.equals(mNavHelper.getCurrentTab().extra,R.string.action_group)
+        int type =Objects.equals(mNavHelper.getCurrentTab().extra,R.string.title_group)
                 ?SearchActivity.TYPE_GROUP:SearchActivity.TYPE_USER;
         SearchActivity.show(this,type);
     }
@@ -91,10 +91,19 @@ public class MainActivity extends BaseActivity implements
     void onActionClick() {
         //根据当前是群组页面还是联系人页面 打开不同的搜索
         // 其他都为人搜索的界面
-        int type =Objects.equals(mNavHelper.getCurrentTab().extra,R.string.action_group)
-                ?SearchActivity.TYPE_GROUP:SearchActivity.TYPE_USER;
-        SearchActivity.show(this,type);
+//        int type =Objects.equals(mNavHelper.getCurrentTab().extra,R.string.action_group)
+//                ?SearchActivity.TYPE_GROUP:SearchActivity.TYPE_USER;
+//        SearchActivity.show(this,type);
 
+        // 浮动按钮点击时，判断当前界面是群还是联系人界面
+        // 如果是群，则打开群创建的界面
+        if (Objects.equals(mNavHelper.getCurrentTab().extra, R.string.title_group)) {
+            // 打开群创建界面
+            GroupCreateActivity.show(this);
+        } else {
+            // 如果是其他，都打开添加用户的界面
+            SearchActivity.show(this, SearchActivity.TYPE_USER);
+        }
     }
 
     @Override
@@ -110,12 +119,12 @@ public class MainActivity extends BaseActivity implements
         // 对浮动按钮进行隐藏与显示的动画
         float transY = 0;
         float rotation = 0;
-        if (Objects.equals(newTab.extra, R.string.action_home)) {
+        if (Objects.equals(newTab.extra, R.string.title_home)) {
             // 主界面时隐藏
             transY = Ui.dipToPx(getResources(), 76);
         } else {
             // transY 默认为0 则显示
-            if (Objects.equals(newTab.extra, R.string.action_group)) {
+            if (Objects.equals(newTab.extra, R.string.title_group)) {
                 // 群
                 fatAction.setImageResource(R.drawable.ic_group_add);
                 rotation = -360;

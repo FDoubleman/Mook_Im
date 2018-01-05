@@ -73,6 +73,12 @@
             android:label="@string/title_message"
             android:theme="@style/AppTheme.Message">
         </activity>
+
+        <activity
+            android:name=".activity.GroupCreateActivity"
+            android:label="@string/title_message"
+            android:theme="@style/AppTheme.Group.Create">
+        </activity>
         <!-- 个推的广播注册 -->
         <receiver
             android:name=".MessageReceiver"
