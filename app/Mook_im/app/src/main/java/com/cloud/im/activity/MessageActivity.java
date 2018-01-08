@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import com.cloud.common.base.BaseActivity;
 import com.cloud.common.base.BaseFragment;
 import com.cloud.factory.model.Author;
+import com.cloud.factory.model.db.Group;
 import com.cloud.factory.model.db.Message;
 import com.cloud.factory.model.db.Session;
 import com.cloud.im.R;
@@ -57,6 +58,20 @@ public class MessageActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    /**
+     * 发起群聊天
+     *
+     * @param context 上下文
+     * @param group   群的Model
+     */
+    public static void show(Context context, Group group) {
+        if (group == null || context == null || TextUtils.isEmpty(group.getId()))
+            return;
+        Intent intent = new Intent(context, MessageActivity.class);
+        intent.putExtra(KEY_RECEIVER_ID, group.getId());
+        intent.putExtra(KEY_RECEIVER_IS_GROUP, true);
+        context.startActivity(intent);
+    }
 
     @Override
     public int getContentLayoutId() {

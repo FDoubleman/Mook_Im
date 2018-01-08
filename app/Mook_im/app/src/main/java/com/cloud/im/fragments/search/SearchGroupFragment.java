@@ -25,6 +25,7 @@ import butterknife.OnClick;
 
 /**
  * Created by fmm on 2017/10/5.
+ *
  */
 
 public class SearchGroupFragment  extends BasePresenterFragment<SearchContract.SearchPresenter>

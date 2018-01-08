@@ -169,14 +169,15 @@ public class DBHelper {
      */
     private static <Model extends BaseModel> void notifySave(final Class<Model> tClass,
                                                              final Model... models) {
-        Set<ChangedListener> listeners = instance.getChangedListener(tClass);
-        if (listeners == null || listeners.size() == 0) {
-            return;
-        }
-        for (ChangedListener<Model> listener : listeners) {
-            listener.onDataSave(models);
-        }
 
+        // 找监听器
+        Set<ChangedListener> listeners = instance.getChangedListener(tClass);
+        if (listeners != null && listeners.size() > 0) {
+            // 通用的通知
+            for (ChangedListener<Model> listener : listeners) {
+                listener.onDataSave(models);
+            }
+        }
 
         //例外情况
         if(GroupMember.class.equals(tClass)){
