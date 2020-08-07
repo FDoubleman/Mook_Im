@@ -16,10 +16,7 @@
 
     <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <!-- Access Key ID ：LTAIBZr2n3nbVeK7 -->
-    <!-- Access Key Secret ：R0ZanvhqiQWZTffQ1lKJeVZ75jjyVe -->
-    <!-- Endpoint ：oss-cn-shanghai.aliyuncs.com -->
-    <!-- BUCKET_NAME ：fdouble -->
+   
     <application
         android:name=".App"
         android:allowBackup="true"
